@@ -4,13 +4,13 @@
 // traversal - BFS, DFS; and more.
 //
 // no error handling here
+//
+// Credits: casablanca @SO (array list)
 
 #include <stdlib.h>
 #include <stdio.h>
 
 // array list
-// from casablanca at stackoverflow
-// todo: insert at pos; print; delete; locate.
 
 typedef struct {
   int *array;
@@ -23,7 +23,7 @@ void initArray(Array *a, size_t initSize) {
   a->size = initSize;
 }
 
-// for insert at position, shift by one
+// TODO: insert at position, shift by one
 void insertArray(Array *a, int element) {
   if (a->used == a->size) {
     a->size *= 2; /* dynamic resize */
@@ -32,14 +32,22 @@ void insertArray(Array *a, int element) {
   a->array[a->used++] = element;
 }
 
+printArray() { /* TODO */ }
+deleteArray() { /* TODO */ }
+locateArray() { /* TODO */ }
+
 void freeArray(Array *a) {
   free(a->array);
   a->array = NULL;
   a->used = a->size = 0;
 }
 
-// linked list
-
+// TODO: linked list
+// TODO: stack
+// TODO: queue
+// TODO: mapping / hash table
+// TODO: binary tree
+// TODO: tree traversal
 
 
 
