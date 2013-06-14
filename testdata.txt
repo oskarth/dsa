@@ -1,6 +1,4 @@
-a b asdsa
-asdasd we ll
-mmm
-aokk
-
-asad
+10
+20
+1
+50
