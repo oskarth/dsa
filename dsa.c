@@ -225,9 +225,44 @@ void applypostorder(Tnode *treep, void (*fn)(Tnode *, void*), void *arg) {
   (*fn)(treep, arg);
 }
 
+/* hash table */
 
+// a hash table is an array of lists
+// so the element type is the same as for list, that is a a Node
+// constant-time lookup, insertion and deletion
 
+enum { NHASH = 1000, MULTIPLIER = 37 };
 
+/* hash: compute hash value of string */
+unsigned int hash(char *str) {
+  unsigned int h;
+  unsigned char *p;
+  h = 0;
+  for (p = (unsigned char *) str; *p != '\0'; p++)
+    h = MULTIPLIER * h + *p;
+  return h % NHASH;
+}
+
+Node *symtab[NHASH]; /* a symbol table */
+
+/* hashlookup: find name in symtab, with optional create */
+Node *hashlookup(char *name, int create, int value) {
+  int h;
+  Node *sym;
+
+  h = hash(name);
+  for (sym = symtab[h]; sym != NULL; sym = sym->next)
+    if (strcmp(name, sym->name) == 0)
+      return sym;
+  if (create) {
+    sym = (Node *) malloc(sizeof(Node));
+    sym->name = name; /* assumed allocated elsewhere */
+    sym->value = value;
+    sym->next = symtab[h];
+    symtab[h] = sym;
+  }
+  return sym;
+}
 
 
 
@@ -244,6 +279,8 @@ int main() {
   apply(list, printlist, "%s: %x\n");
 
   // Tree stuff
+
+  // Hash table stuff
 
 }
 
