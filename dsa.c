@@ -52,6 +52,111 @@ int delname(char *name) {
   return 0;
 }
 
+/* a linked list of nodes*/
+
+typedef struct Node Node;
+struct Node {
+  char *name;
+  int value;
+  Node *next; /* in list */
+};
+
+/* newitem: create new item from name and value*/
+Node *newitem(char *name, int value) {
+  Node *newp;
+
+  newp = (Node *) malloc(sizeof(Node));
+  newp->name = name;
+  newp->value = value;
+  newp->next = NULL;
+  return newp;
+}
+
+/* addfront: add newp to front of listp */
+// usage: nvlist = addfront(nvlist, newitem("smiley", 0x263A));
+Node *addfront(Node *listp, Node *newp) {
+  newp->next = listp;
+  return newp;
+}
+
+/* addend: add newp to end of listp*/
+Node *addend(Node *listp, Node *newp) {
+  Node *p;
+
+  if (listp == NULL)
+    return newp;
+  for (p = listp; p->next != NULL; p = p->next)
+    ;
+  p->next = newp;
+  return listp;
+}
+
+/* lookup: sequential search for name in listp */
+Node *lookup(Node *listp, char *name) {
+  for( ; listp != NULL; listp = listp->next)
+    if (strcmp(name, listp->name) == 0)
+      return listp;
+  return NULL; /* no match */
+}
+
+/* apply: execute fn for each element of listp */
+void apply(Node *listp, void (*fn)(Node*, void*), void *arg) {
+  for ( ; listp != NULL; listp = listp->next)
+    (*fn)(listp, arg); /* call the function */
+}
+
+/* printlist: print name and value using format in arg */
+// usage: apply(list, printlist, "%s: %x\n");
+void printlist(Node *p, void *arg) {
+  char *fmt;
+  fmt = (char *) arg;
+  printf(fmt, p->name, p->value);
+}
+
+/* inccounter: increment counter *arg */
+void inccounter(Node *p, void *arg) {
+  int *ip;
+  /* p is unused */
+  ip = (int *) arg;
+  (*ip)++;
+}
+
+/* freeall: free all elements of listp */
+void freeall(Node *listp) {
+  Node *next;
+  for ( ; listp != NULL; listp = next) {
+    next = listp->next;
+    /* assumes name is freed elsewhere */
+    free(listp);
+      }
+}
+
+/* delitem: delete first "name" from listp */
+Node *delitem(Node *listp, char *name) {
+  Node *p, *prev;
+  prev = NULL;
+  for (p = listp; p != NULL; p = p->next) {
+    if (strcmp(name, p->name) == 0) {
+      if (prev == NULL)
+        listp = p->next;
+      else
+        prev->next = p->next;
+      free(p);
+      return listp;
+    }
+    prev = p;
+  }
+  printf("delitem: %s not in list", name);
+  return NULL;
+}
+
 int main() {
 
+  // Linked list stuff
+  printf("Linked list for you.\n");
+  Node *list;
+  int n = 0;
+  list = newitem("Pike", 5);
+  list = addfront(list, newitem("Kernighan", 3));
+  apply(list, printlist, "%s: %x\n");
 }
