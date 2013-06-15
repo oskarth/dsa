@@ -1,3 +1,5 @@
+/* data structures and algorithms to know by heart */
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -91,8 +93,8 @@ Node *addend(Node *listp, Node *newp) {
   return listp;
 }
 
-/* lookup: sequential search for name in listp */
-Node *lookup(Node *listp, char *name) {
+/* llookup: sequential search for name in listp */
+Node *llookup(Node *listp, char *name) {
   for( ; listp != NULL; listp = listp->next)
     if (strcmp(name, listp->name) == 0)
       return listp;
@@ -150,7 +152,88 @@ Node *delitem(Node *listp, char *name) {
   return NULL;
 }
 
+/* binary search tree */
+
+typedef struct Tnode Tnode;
+struct Tnode {
+  char *name;
+  int value;
+  Tnode *left; /* lesser */
+  Tnode *right; /* greater */
+};
+
+/* insert: insert newp in treep, return treep */
+Tnode *insert(Tnode *treep, Tnode *newp) {
+  int cmp;
+  if (treep == NULL)
+    return newp;
+  cmp = strcmp(newp->name, treep->name);
+  if (cmp == 0)
+    printf("inset: duplicate entry %s ignored", newp->name);
+  else if (cmp < 0)
+    treep->left = insert(treep->left, newp);
+  else
+    treep->right = insert(treep->right, newp);
+  return treep;
+}
+
+/* lookup: look up name in tree treep */
+Tnode *lookup(Tnode *treep, char *name) {
+  int cmp;
+  if (treep == NULL)
+    return NULL;
+  cmp = strcmp(name, treep->name);
+  if (cmp == 0)
+    return treep;
+  else if (cmp < 0)
+    return lookup(treep->left, name);
+  else
+    return lookup(treep->right, name);
+}
+
+/* nrlookup: non-recursively look up name in tree treep */
+Tnode *nrlookup(Tnode *treep, char *name) {
+  int cmp;
+  while (treep != NULL) {
+    cmp = strcmp(name, treep->name);
+    if (cmp == 0)
+      return treep;
+    else if (cmp < 0)
+      treep = treep->left;
+    else
+      treep = treep->right;
+  }
+  return NULL;
+}
+
+/* applyinorder: inorder application of fnto treep
+   usage example: applyinorder(treep, printlist?, "%s: %x\n"); */
+void applyinorder(Tnode *treep, void (*fn)(Tnode *, void*), void *arg) {
+  if (treep == NULL)
+    return;
+  applyinorder(treep->left, fn, arg);
+  (*fn)(treep, arg);
+  applyinorder(treep->right, fn, arg);
+}
+
+/* applypostorder: postorder application of fn to treep */
+void applypostorder(Tnode *treep, void (*fn)(Tnode *, void*), void *arg) {
+  if (treep == NULL)
+    return;
+  applypostorder(treep->left, fn, arg);
+  applypostorder(treep->right, fn, arg);
+  (*fn)(treep, arg);
+}
+
+
+
+
+
+
+
 int main() {
+
+  // Array stuff
 
   // Linked list stuff
   printf("Linked list for you.\n");
@@ -159,4 +242,14 @@ int main() {
   list = newitem("Pike", 5);
   list = addfront(list, newitem("Kernighan", 3));
   apply(list, printlist, "%s: %x\n");
+
+  // Tree stuff
+
 }
+
+
+
+// potential problem with trees: not balanced, eg 12345, red-black / AVL tree
+// hash map name instead of hash table
+// example problem: tree equivalence check, walking
+// BSTs infrequently used?
