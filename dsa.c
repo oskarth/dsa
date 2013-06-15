@@ -1,71 +1,57 @@
-// data structures and algorithms to know by heart
-//
-// lists - array list, linked list, stack, queue; mappings; trees; graph
-// traversal - BFS, DFS; and more.
-//
-// no error handling here
-//
-// Credits: casablanca @SO (array list)
-
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
-// array list
+/* a growable array of items */
 
-typedef struct {
-  int *array;
-  size_t used, size;
-} Array;
+typedef struct Item Item;
+struct Item {
+  char *name;
+  int value;
+};
 
-void initArray(Array *a, size_t initSize) {
-  a->array = (int *)malloc(initSize * sizeof(int));
-  a->used = 0;
-  a->size = initSize;
-}
+struct Table {
+  int nval; /* current number of values */
+  int max; /* allocated number of values */
+  Item *item; /* array of items (name-value pairs) */
+} table;
 
-// TODO: insert at position, shift by one
-void insertArray(Array *a, int element) {
-  if (a->used == a->size) {
-    a->size *= 2; /* dynamic resize */
-    a->array = (int *)realloc(a->array, a->size * sizeof(int));
+enum { INIT = 1, GROW = 2 };
+
+/* addname: add new name and value to table */
+int addname(Item newname) {
+  Item *ip;
+
+  if (table.item == NULL) { /* first time */
+    table.item = (Item *) malloc(INIT * sizeof(Item));
+    if (table.item == NULL)
+      return -1;
+    table.max = INIT;
+    table.nval = 0;
+  } else if (table.nval >= table.max) { /* grow */
+    ip = (Item *) realloc(table.item, (GROW*table.max) * sizeof(Item));
+    if (ip == NULL)
+      return -1;
+    table.max *= GROW;
+    table.item = ip;
   }
-  a->array[a->used++] = element;
+  table.item[table.nval] = newname;
+  return table.nval++;
 }
 
-printArray() { /* TODO */ }
-deleteArray() { /* TODO */ }
-locateArray() { /* TODO */ }
+/* delname: remove first matching item from table */
+int delname(char *name) {
+  int i;
 
-void freeArray(Array *a) {
-  free(a->array);
-  a->array = NULL;
-  a->used = a->size = 0;
+  for (i = 0; i < table.nval; i++)
+    if (strcmp(table.item[i].name, name) == 0) {
+      memmove(table.item+i, table.item+i+1, (table.nval-(i+1)) * sizeof(Item));
+      table.nval--;
+      return 1;
+      }
+  return 0;
 }
 
-// TODO: linked list
-// TODO: stack
-// TODO: queue
-// TODO: mapping / hash table
-// TODO: binary tree
-// TODO: tree traversal
-
-
-
-
-
-
-
-
-
-// main function
 int main() {
 
-  // array list play
-  Array a;
-  initArray(&a, 5);
-  for (int i = 0; i < 100; i++)
-    insertArray(&a, i);
-  printf("%d\n", a.array[9]);
-  printf("%d\n", (int)a.used);
-  freeArray(&a);
 }
