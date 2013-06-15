@@ -1,4 +1,5 @@
-/* data structures and algorithms to know by heart */
+/* data structures and algorithms to know by heart
+   30 pages by Kernighan and Pike in TPOP */
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -264,11 +265,78 @@ Node *hashlookup(char *name, int create, int value) {
   return sym;
 }
 
+// algorithms
+
+// searching
+
+/* arraylookup: sequential search for word in array */
+int arraylookup(char *word, char *array[]) {
+  int i;
+  for (i = 0; array[i] != NULL; i++)
+    if (strcmp(word, array[i]) == 0)
+      return i;
+  return -1;
+}
+
+/* lookup: binary search for name in tab; return index */
+int bslookup(char *name, Node tab[], int ntab) {
+  int low, high, mid, cmp;
+  low = 0;
+  high = ntab - 1;
+  while (low <= high) {
+    mid = (low + high) / 2;
+    cmp = strcmp(name, tab[mid].name);
+    if (cmp < 0)
+      high = mid - 1;
+    else if (cmp > 0)
+      low = mid + 1;
+    else /* found match */
+      return mid;
+  }
+  return -1; /* no match */
+}
+
+// sorting
+
+/* swap: interchange v[i] and v[j] */
+void swap(int v[], int i, int j) {
+  int temp;
+  temp = v[i];
+  v[i] = v[j];
+  v[j] = temp;
+}
+
+/* quicksort: sort v[0]..v[n-1] into increasing order */
+void quicksort(int v[], int n) {
+  int i, last;
+  if (n <= 1) /* nothing to do */
+    return;
+  swap(v, 0, rand() % n); /* move pivot elem to v[0] */
+  last = 0;
+  for (i = 1; i < n; i++) /* partition */
+    if (v[i] < v[0])
+      swap(v, ++last, i);
+  swap(v, 0, last); /* restore pivot */
+  quicksort(v, last); /* recursively sort */
+  quicksort(v+last+1, n-last-1); /* each port */
+}
+
+// sorting with library and custom comparison function
+
+// usage: char *str[N] and qsort(str, N, sizeof(str[0]), scmp);
+
+/* scmp: string compare of *p1 and *p2 */
+int scmp(const void *p1, const void *p2) {
+  char *v1, *v2;
+  v1 = *(char **) p1;
+  v2 = *(char **) p2;
+  return strcmp(v1, v2);
+}
+
 
 
 int main() {
-
-  // Array stuff
+  // TODO: add more test data
 
   // Linked list stuff
   printf("Linked list for you.\n");
@@ -277,16 +345,4 @@ int main() {
   list = newitem("Pike", 5);
   list = addfront(list, newitem("Kernighan", 3));
   apply(list, printlist, "%s: %x\n");
-
-  // Tree stuff
-
-  // Hash table stuff
-
 }
-
-
-
-// potential problem with trees: not balanced, eg 12345, red-black / AVL tree
-// hash map name instead of hash table
-// example problem: tree equivalence check, walking
-// BSTs infrequently used?
