@@ -7,7 +7,7 @@
 //  work as expected
 
 static void test_foo() {
-  assert(true && "message");
+  assert(false && "message");
 }
 
 int main() {

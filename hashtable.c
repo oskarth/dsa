@@ -1,19 +1,8 @@
-#include <hashtable.h>
+#include "hashtable.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-typedef struct Nameval Nameval;
-struct Nameval {
-  char *name;
-  int value;
-  Nameval *next; /* in chain */
-};
-
-enum { NHASH = 1000, MULTIPLIER = 31 };
-
-Nameval *symtab[NHASH]; /* a symbol table */
 
 /* hash: compute hash value of string */
 unsigned int hash(char *str) {
@@ -44,5 +33,3 @@ Nameval *lookup(char *name, int create, int value) {
   }
   return sym;
 }
-
-int main () {}

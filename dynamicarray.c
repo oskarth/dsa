@@ -1,22 +1,22 @@
-#include <dynamicarray.h>
+#include "dynamicarray.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct Nameval Nameval;
-struct Nameval {
-  char *name;
-  int value;
-};
+/* typedef struct Nameval Nameval; */
+/* struct Nameval { */
+/*   char *name; */
+/*   int value; */
+/* }; */
 
-struct NVTable {
-  int nval; /* number of name value pairs */
-  int max; /* max capacity of array */
-  Nameval *nameval; /* array of name value pairs */
-} nvtab;
+/* struct NVTable { */
+/*   int nval; /\* number of name value pairs *\/ */
+/*   int max; /\* max capacity of array *\/ */
+/*   Nameval *nameval; /\* array of name value pairs *\/ */
+/* } nvtab; */
 
-enum { NVINIT = 1, NVGROW = 2 };
+/* enum { NVINIT = 1, NVGROW = 2 }; */
 
 /* addname: add new name and value to nvtab */
 int addname(Nameval newname) {
@@ -53,17 +53,17 @@ int delname(char *name) {
   return 0;
 }
 
-int main() {
-  int i;
-  Nameval nv1 = {"Pike", 3};
-  Nameval nv2 = {"Kernighan", 5};
-  Nameval nv3 = {"Ritchie", 4};
+/* int main() { */
+/*   int i; */
+/*   Nameval nv1 = {"Pike", 3}; */
+/*   Nameval nv2 = {"Kernighan", 5}; */
+/*   Nameval nv3 = {"Ritchie", 4}; */
 
-  addname(nv1);
-  addname(nv2);
-  delname("Pike");
-  addname(nv3);
+/*   addname(nv1); */
+/*   addname(nv2); */
+/*   delname("Pike"); */
+/*   addname(nv3); */
 
-  for (i = 0; i < nvtab.nval; i++)
-    printf("%s %d\n", nvtab.nameval[i].name, nvtab.nameval[i].value);
-}
+/*   for (i = 0; i < nvtab.nval; i++) */
+/*     printf("%s %d\n", nvtab.nameval[i].name, nvtab.nameval[i].value); */
+/* } */
