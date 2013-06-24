@@ -4,13 +4,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-/* typedef struct Nameval Nameval; */
-/* struct Nameval { */
-/*   char *name; */
-/*   int value; */
-/*   Nameval *next; /\* in list *\/ */
-/* }; */
-
 /* newitem: create newitem from name and value */
 Nameval *newitem(char *name, int value) {
   Nameval *newp;
@@ -87,17 +80,3 @@ Nameval *delitem(Nameval *listp, char *name) {
   printf("delitem: %s not in list", name);
   return NULL; /* not a very graceful return */
 }
-
-/* int main() { */
-/*   int n = 0; */
-/*   Nameval *nvlist; */
-
-/*   nvlist = newitem("Ritchie", 3); */
-/*   nvlist = addfront(nvlist, newitem("Kernighan", 2)); */
-/*   nvlist = addfront(nvlist, newitem("Pike", 5)); */
-/*   nvlist = delitem(nvlist, "Ritchie"); */
-
-/*   apply(nvlist, printnv, "%s: %x\n"); */
-/*   apply(nvlist, inccounter, &n); */
-/*   printf("%d elements in nvlist\n", n); */
-/* } */

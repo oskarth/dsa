@@ -4,14 +4,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-/* typedef struct Nameval Nameval; */
-/* struct Nameval { */
-/*   char *name; */
-/*   int value; */
-/*   Nameval *left; /\* lesser *\/ */
-/*   Nameval *right; /\* greater *\/ */
-/* }; */
-
 /*newitem: create newitem from name and value */
 Nameval *newitem(char *name, int value) {
   Nameval *newp;
@@ -90,17 +82,3 @@ void applypostorder(Nameval *treep,
   applypostorder(treep->right, fn, arg);
   (*fn)(treep, arg);
 }
-
-
-/* int main() { */
-/*   Nameval *nv1, *nv2; */
-
-/*   nv1 = newitem("foobar", 10); */
-/*   nv2 = newitem("zoogar", 12); */
-
-/*   insert(nv1, nv2); // not isomorphic to linked list impl */
-
-/*   // to print in order */
-/*   //applyinorder(treep, printnv, "%s: %x\n"); */
-
-/* } */
