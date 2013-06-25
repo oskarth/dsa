@@ -3,10 +3,10 @@
 #include <assert.h>
 #include <stdbool.h>
 
-static void test_foo() {
+static void test_basics() {
   assert(true && "message");
 }
 
 int main() {
-  test_foo();
+  test_basics();
 }

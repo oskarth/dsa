@@ -1,4 +1,24 @@
+Data models: tree, list, set, relational (?), graph
+
+wc -l *.c *.h => 358
+
 array, list, bst, hashmap
+
+a dictionary supports insert, delete, lookup
+
+...linear and binary search in array
+
+dynamic programming algo: longest common substring, LCS. ?
+
+character strings lists...?, null character
+
+for hash maps - impl dict, that is: insert delete lookup
+
+trees - generalize with LCRS tree, pointer to leftmost child and right sibling.
+
+trees - preinpostorder as arithmetic expressions, in: a + (b-c)*d, (+ a (* (- b c) d)), '3 4 +' reverse polish notation
+
+bsts as dictionaries (adt)
 
 so you can implement it, fine. but how do you know it works, and its complexity? test data, measure. testing and measuring _a must_.
 
